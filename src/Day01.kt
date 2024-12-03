@@ -31,9 +31,7 @@ private fun part1(
 ): Int {
     list1.sort()
     list2.sort()
-    val zipped = list1.zip(list2)
-    val ret = zipped.fold(0) { acc, pair ->
+    return list1.zip(list2).fold(0) { acc, pair ->
         acc + (pair.first - pair.second).absoluteValue
     }
-    return ret
 }

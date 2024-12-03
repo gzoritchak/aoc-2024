@@ -1,21 +1,20 @@
 
 fun main() {
-    val reports: List<List<Int>> = readInput("Day02").map { it.split(" ").map { it.toInt() } }
-    val safeReportsCount = reports.count { it.isReportSafe() }
+    val reports = readInput("Day02").map { line -> line.split(" ").map { it.toInt() } }
+    val safeReportsCount = reports.count { it.isSafe() }
     println("safe reports : $safeReportsCount")
-
     val newSafeReportsCount = reports.count { report ->
-        report.isReportSafe() || report.safeWithRelaxedRule()
+        report.isSafe() || report.isSafeWithRelaxedRule()
     }
     println("new safe reports : $newSafeReportsCount")
 }
 
-fun List<Int>.isReportSafe(): Boolean {
+private fun List<Int>.isSafe(): Boolean {
     val differences = zipWithNext { a, b -> b - a }
     return differences.all { it in 1..3 } || differences.all { it in -3..-1 }
 }
 
-fun List<Int>.safeWithRelaxedRule(): Boolean = indices.any { index ->
-    val modifiedReport = filterIndexed { i, _ -> i != index }
-    modifiedReport.isReportSafe()
+private fun List<Int>.isSafeWithRelaxedRule(): Boolean = indices.any { index ->
+    val reportWithOneResultOut = filterIndexed { i, _ -> i != index }
+    reportWithOneResultOut.isSafe()
 }
